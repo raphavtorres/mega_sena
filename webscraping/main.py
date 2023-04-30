@@ -1,9 +1,4 @@
-# from web_01 import Web
-# testando
-# web_01 = Web()
-# web_01.open_site()
+from scraper import WebScraper
 
-from web_02 import Web
-
-web_02 = Web()
-web_02.open_site()
+web_scraper = WebScraper()
+web_scraper.open_site()
