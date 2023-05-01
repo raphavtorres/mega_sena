@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from random import randint
 
 from mega_years import MEGA_YEARS
 from db_functions import read_game_db
@@ -19,24 +22,24 @@ class Application():
         self.inputs()
         self.list_megas()
         self.comboBox()
-        # self.dropdown()
+        self.graph()
         window.mainloop()
 
     def screen(self):
         self.window.title("Mega-Sena")
-        self.window.geometry('900x650')
+        self.window.geometry('1000x650')
         self.window.configure(background='#27a15b', border=0.8)
         self.window.resizable(False, False)
 
     def frame(self):
         self.frame_0 = tk.Frame(self.window, bg="#5effa4")
-        self.frame_0.place(relx=0.03, rely=0.03, relwidth=0.94, relheight=0.09)
+        self.frame_0.place(relx=0.03, rely=0.01, relwidth=0.94, relheight=0.09)
 
         self.frame_1 = tk.Frame(self.window, bg='#5effa4')
-        self.frame_1.place(relx=0.03, rely=0.14, relwidth=0.94, relheight=0.4)
+        self.frame_1.place(relx=0.03, rely=0.11, relwidth=0.94, relheight=0.4)
 
         self.frame_2 = tk.Frame(self.window, bg='#5effa4')
-        self.frame_2.place(relx=0.03, rely=0.56, relwidth=0.94, relheight=0.4)
+        self.frame_2.place(relx=0.03, rely=0.52, relwidth=0.94, relheight=0.47)
 
     def buttons(self):
         self.btn_search = tk.Button(self.frame_0, bg="#7a2c64", border=0, text="Search", font=("sans-serif", 12), fg="#ffffff", command=self.read_game)
@@ -107,6 +110,26 @@ class Application():
         self.scrool_list = tk.Scrollbar(self.frame_1, orient='vertical')
         self.list_megas_tb.configure(yscrollcommand=self.scrool_list.set)
         self.scrool_list.place(relx=0.97, rely=0.02, relwidth=0.03, relheight=0.96)
+
+    def graph(self):
+        fig, ax = plt.subplots()
+        numbers = [str(num) for num in range(1, 61)]
+        counts = [10, 4, 5] * 20
+        # bar_labels = ['blue' for num in range(1, 61)]
+        bar_colors = 'tab:blue'
+
+        ax.bar(numbers, counts, color=bar_colors)
+        # ax.bar(numbers, counts, label=bar_labels, color=bar_colors)
+
+        ax.set_title('Graphic representation of games')
+        ax.set_ylabel('Amount of occurrences')
+
+        fig.set_figwidth(9)
+
+        canvas = FigureCanvasTkAgg(fig, master=self.frame_2)
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        # canvas.get_tk_widget().pack()
+        plt.show()
 
     def read_game(self):
         self.clear()
