@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
 
-from mega_years import MEGA_YEARS
+# from mega_years import MEGA_YEARS
 from db_functions import insert_db, create_table
 
 
@@ -26,14 +26,11 @@ class WebScraper:
     """
     /html/body/main/div[2]/div/div/div[1]/text()[8]
     /html/body/main/div[2]/div/div/div[1]/text()[10]
-        /html/body/main/div[2]/div/div/div[1]/text()[74] -->  - 19/04/2023 (Quarta)
-        /html/body/main/div[2]/div/div/div[1]/text()[76] -->  - 22/04/2023 (Sábado)
-        /html/body/main/div[2]/div/div/div[1]/text()[78] -->  - 26/04/2023 (Quarta)
-        """
-    
-    def open_site(self):
+    """
+
+    def open_site(self, year=""):
         # for year in MEGA_YEARS:
-        year = '2014'
+        # year = '2022'
         self.driver.get(self.url.replace('#YEAR#', year))
         sleep(5)
         print("========== YEAR:", year, "==========")

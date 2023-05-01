@@ -3,7 +3,6 @@ CREATE DATABASE mega_sena;
 USE mega_sena;
 
 CREATE TABLE mega (
-    id INT AUTO_INCREMENT,
     megaYear INT,
     contest INT,
     n1 VARCHAR(2),
@@ -13,7 +12,7 @@ CREATE TABLE mega (
     n5 VARCHAR(2),
     n6 VARCHAR(2),
     dateMega VARCHAR(30),
-    PRIMARY KEY (id)
+    PRIMARY KEY (contest)
 );
 
 INSERT INTO mega (megaYear, contest, numbers, dateMega)
