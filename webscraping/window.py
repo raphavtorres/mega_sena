@@ -77,11 +77,6 @@ class Application():
         self.list_megas_tb.column('#2', width=300)
         self.list_megas_tb.column('#3', width=250)
 
-        """
-        /html/body/main/div[2]/div/div/div[1]/text()[74] -->  - 19/04/2023 (Quarta)
-        /html/body/main/div[2]/div/div/div[1]/text()[76] -->  - 22/04/2023 (Sábado)
-        /html/body/main/div[2]/div/div/div[1]/text()[78] -->  - 26/04/2023 (Quarta)
-        """
         self.list_megas_tb.place(relx=0.01, rely=0.02, relwidth=0.98, relheight=0.96)
         self.scrool_list = tk.Scrollbar(self.frame_1, orient='vertical')
         self.list_megas_tb.configure(yscrollcommand=self.scrool_list.set)

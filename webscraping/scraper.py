@@ -15,28 +15,41 @@ class WebScraper:
             },
             "number": {
                 'xpath': '/html/body/main/div[2]/div/div/div[1]/span[#sec_counter#]'
+            },
+            "date": {
+                'xpath': '/html/body/main/div[2]/div/div/div[1]/text()[#third_counter]'
             }
         }
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
 
+    """
+    /html/body/main/div[2]/div/div/div[1]/text()[8]
+    /html/body/main/div[2]/div/div/div[1]/text()[10]
+        /html/body/main/div[2]/div/div/div[1]/text()[74] -->  - 19/04/2023 (Quarta)
+        /html/body/main/div[2]/div/div/div[1]/text()[76] -->  - 22/04/2023 (Sábado)
+        /html/body/main/div[2]/div/div/div[1]/text()[78] -->  - 26/04/2023 (Quarta)
+        """
+    
     def open_site(self):
-        for year in MEGA_YEARS:
-            # year = '2014'
-            self.driver.get(self.url.replace('#YEAR#', year))
-            sleep(5)
-            print("========== YEAR:", year, "==========")
-            self.get_numbers(year)
+        # for year in MEGA_YEARS:
+        year = '2014'
+        self.driver.get(self.url.replace('#YEAR#', year))
+        sleep(5)
+        print("========== YEAR:", year, "==========")
+        self.get_numbers(year)
 
     def get_numbers(self, year):
         create_table(year)
         table = f"mega{year}"
         counter = 1
+        third_counter = 8
         i = 0
         while True:
             numbers = []
             try:
                 contest = self.driver.find_element(By.XPATH, self.map['raffle']['xpath'].replace('#counter#', str(i+4))).text
+                # date = self.driver.find_element(By.XPATH, self.map['date']['xpath'].replace('#third_counter', str(third_counter))).get_attribute("outerHTML")
                 print(contest, end=": ")
                 j = 0
                 while j < 6:
@@ -47,6 +60,8 @@ class WebScraper:
                         numbers.append(number)
                         j += 1
                 i += 1
+                third_counter += 2
+                # print(date)
                 insert_db(table=table, year=year, contest=contest, numbers=numbers)
                 print()
             except Exception as e:
