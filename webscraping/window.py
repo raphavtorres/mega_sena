@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import matplotlib.pyplot as plt
 
 from mega_years import MEGA_YEARS
 from db_functions import read_game_db
