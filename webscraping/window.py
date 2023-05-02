@@ -129,7 +129,7 @@ class Application():
 
         ax.bar(numbers, counts, color=bar_colors)
 
-        ax.set_title('Graphic representation of games')
+        ax.set_title(f'Graphic representation - {self.get_year()}')
         ax.set_ylabel('Amount of occurrences')
 
         plt.show()
@@ -162,8 +162,8 @@ class Application():
 
     def get_numbers(self):
         list_number = []
-        numbers = select_numbers('2023')
-        # numbers = select_numbers(self.get_year())
+        # numbers = select_numbers('2023')
+        numbers = select_numbers(self.get_year())
         for number_tuple in numbers:
             for number in number_tuple:
                 list_number.append(int(number))
