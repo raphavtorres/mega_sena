@@ -51,3 +51,12 @@ def create_table(year):
     ]
 
     db_commit(sql, table)
+
+
+def select_numbers(year):
+    table = f"mega{year}"
+    sql = f"SELECT n1, n2, n3, n4, n5, n6 FROM {table}"
+
+    con.cursor.execute(sql)
+    result = con.cursor.fetchall()
+    return result

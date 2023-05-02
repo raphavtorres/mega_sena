@@ -23,11 +23,6 @@ class WebScraper:
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
 
-    """
-    /html/body/main/div[2]/div/div/div[1]/text()[8]
-    /html/body/main/div[2]/div/div/div[1]/text()[10]
-    """
-
     def open_site(self, year=""):
         # for year in MEGA_YEARS:
         # year = '2022'
@@ -46,7 +41,6 @@ class WebScraper:
             numbers = []
             try:
                 contest = self.driver.find_element(By.XPATH, self.map['raffle']['xpath'].replace('#counter#', str(i+4))).text
-                # date = self.driver.find_element(By.XPATH, self.map['date']['xpath'].replace('#third_counter', str(third_counter))).get_attribute("outerHTML")
                 print(contest, end=": ")
                 j = 0
                 while j < 6:
@@ -58,7 +52,6 @@ class WebScraper:
                         j += 1
                 i += 1
                 third_counter += 2
-                # print(date)
                 insert_db(table=table, year=year, contest=contest, numbers=numbers)
                 print()
             except Exception as e:

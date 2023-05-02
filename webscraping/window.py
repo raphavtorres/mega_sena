@@ -1,12 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-from random import randint
 
 from mega_years import MEGA_YEARS
-from db_functions import read_game_db
+from db_functions import read_game_db, select_numbers
 from scraper import WebScraper
 
 window = tk.Tk()
@@ -20,14 +17,14 @@ class Application():
         self.frame()
         self.buttons()
         self.inputs()
+        self.labels()
         self.list_megas()
         self.comboBox()
-        self.graph()
         window.mainloop()
 
     def screen(self):
         self.window.title("Mega-Sena")
-        self.window.geometry('1000x650')
+        self.window.geometry('1000x600')
         self.window.configure(background='#27a15b', border=0.8)
         self.window.resizable(False, False)
 
@@ -39,7 +36,17 @@ class Application():
         self.frame_1.place(relx=0.03, rely=0.11, relwidth=0.94, relheight=0.4)
 
         self.frame_2 = tk.Frame(self.window, bg='#5effa4')
-        self.frame_2.place(relx=0.03, rely=0.52, relwidth=0.94, relheight=0.47)
+        self.frame_2.place(relx=0.03, rely=0.52, relwidth=0.94, relheight=0.09)
+
+        self.frame_3 = tk.Frame(self.window, bg='#5effa4')
+        self.frame_3.place(relx=0.03, rely=0.62, relwidth=0.94, relheight=0.15)
+
+        self.frame_4 = tk.Frame(self.window, bg='#5effa4')
+        self.frame_4.place(relx=0.03, rely=0.8, relwidth=0.94, relheight=0.09)
+
+    def labels(self):
+        self.lb_fezinha = tk.Label(self.frame_3, text='Fezinha', background='#5effa4', font=("sans-serif", 16))
+        self.lb_fezinha.place(relx=0.45, rely=0.005, relwidth=0.1, relheight=0.4)
 
     def buttons(self):
         self.btn_search = tk.Button(self.frame_0, bg="#7a2c64", border=0, text="Search", font=("sans-serif", 12), fg="#ffffff", command=self.read_game)
@@ -48,27 +55,30 @@ class Application():
         self.btn_update = tk.Button(self.frame_0, bg="#7a2c64", border=0, text="Update", font=("sans-serif", 12), fg="#ffffff", command=self.update)
         self.btn_update.place(relx=0.6, rely=0.20, relwidth=0.1, relheight=0.7)
 
-        self.btn_fezinha = tk.Button(self.frame_0, bg="#7a2c64", border=0, text="Fezinha", font=("sans-serif", 12), fg="#ffffff")
-        self.btn_fezinha.place(relx=0.42, rely=0.20, relwidth=0.1, relheight=0.7)
+        self.btn_fezinha = tk.Button(self.frame_3, bg="#7a2c64", border=0, text="Fezinha", font=("sans-serif", 12), fg="#ffffff")
+        self.btn_fezinha.place(relx=0.42, rely=0.4, relwidth=0.1, relheight=0.5)
+
+        self.btn_graph = tk.Button(self.frame_2, bg="#7a2c64", border=0, text="Open Graph", font=("sans-serif", 12), fg="#ffffff", command=self.graph)
+        self.btn_graph.place(relx=0.45, rely=0.15, relwidth=0.1, relheight=0.7)
 
     def inputs(self):
-        self.input_n1 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n1.place(relx=0.01, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n1 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n1.place(relx=0.01, rely=0.4, relwidth=0.05, relheight=0.5)
 
-        self.input_n2 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n2.place(relx=0.08, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n2 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n2.place(relx=0.08, rely=0.4, relwidth=0.05, relheight=0.5)
 
-        self.input_n3 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n3.place(relx=0.15, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n3 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n3.place(relx=0.15, rely=0.4, relwidth=0.05, relheight=0.5)
 
-        self.input_n4 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n4.place(relx=0.22, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n4 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n4.place(relx=0.22, rely=0.4, relwidth=0.05, relheight=0.5)
 
-        self.input_n5 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n5.place(relx=0.29, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n5 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n5.place(relx=0.29, rely=0.4, relwidth=0.05, relheight=0.5)
 
-        self.input_n6 = tk.Entry(self.frame_0, border=0, font=("sans-serif", 16))
-        self.input_n6.place(relx=0.36, rely=0.20, relwidth=0.05, relheight=0.7)
+        self.input_n6 = tk.Entry(self.frame_3, border=0, font=("sans-serif", 16))
+        self.input_n6.place(relx=0.36, rely=0.4, relwidth=0.05, relheight=0.5)
 
     def comboBox(self):
         self.cb_years = ttk.Combobox(self.frame_0, values=MEGA_YEARS, font=("sans-serif", 12))
@@ -114,21 +124,14 @@ class Application():
     def graph(self):
         fig, ax = plt.subplots()
         numbers = [str(num) for num in range(1, 61)]
-        counts = [10, 4, 5] * 20
-        # bar_labels = ['blue' for num in range(1, 61)]
+        counts = self.get_numbers()
         bar_colors = 'tab:blue'
 
         ax.bar(numbers, counts, color=bar_colors)
-        # ax.bar(numbers, counts, label=bar_labels, color=bar_colors)
 
         ax.set_title('Graphic representation of games')
         ax.set_ylabel('Amount of occurrences')
 
-        fig.set_figwidth(9)
-
-        canvas = FigureCanvasTkAgg(fig, master=self.frame_2)
-        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-        # canvas.get_tk_widget().pack()
         plt.show()
 
     def read_game(self):
@@ -157,5 +160,33 @@ class Application():
         web_scraper_update = WebScraper()
         web_scraper_update.open_site(year)
 
+    def get_numbers(self):
+        list_number = []
+        numbers = select_numbers('2023')
+        # numbers = select_numbers(self.get_year())
+        for number_tuple in numbers:
+            for number in number_tuple:
+                list_number.append(int(number))
+
+        orded_numbers_list = sorted(list_number)
+        return self.count_number_occurrences(orded_numbers_list)
+
+    def count_number_occurrences(self, list):
+        count_list = []
+        count = 1
+        for i in range(len(list) - 1):
+            a = list[i]
+            b = list[i+1]
+            if a != b:
+                count_list.append(count)
+                count = 0
+                while (a+1) != b:
+                    count_list.append(count)
+                    a += 1
+            count += 1
+        count_list.append(count)
+        return count_list
+
 
 windowapp = Application()
+windowapp.get_numbers()
